@@ -1,5 +1,5 @@
 <div align="center">
-  # ⚡ NVIDIA-GPU-PowerMonitor
+  # NVIDIA-GPU-PowerMonitor
 
   **Real-time, Low-Latency NVIDIA GPU Telemetry Dashboard**
 
@@ -13,7 +13,7 @@
 
 ---
 
-## 🚀 Technical Overview
+## Technical Overview
 
 NVIDIA-GPU-PowerMonitor is engineered to provide granular, real-time observability into GPU hardware metrics. Unlike standard task managers that poll at 1Hz or slower, this architecture leverages an asynchronous Python backend to query hardware registries via `nvidia-smi` and push diffs to a frontend client via WebSockets at high frequencies.
 
@@ -23,7 +23,7 @@ NVIDIA-GPU-PowerMonitor is engineered to provide granular, real-time observabili
 - **Zero-Dependency Frontend**: The UI relies solely on vanilla JavaScript (ES6+), HTML5, and CSS3, pulling in `Chart.js` and `Socket.IO` via CDN to maintain a lightweight footprint.
 - **Resilient Fallbacks (Mocking)**: Includes an integrated stochastic data generator for UI development on host machines lacking NVIDIA drivers.
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```mermaid
 graph TD
@@ -58,7 +58,7 @@ nvidia-smi --query-gpu=power.draw,enforced.power.limit,power.max_limit,memory.us
 ```
 *Note: The script dynamically handles `[N/A]` or unsupported queries (common in laptop SKUs for `power.limit`) by safely falling back to absolute TGP (`power.max_limit`).*
 
-## 🔌 WebSocket API Reference
+## WebSocket API Reference
 
 The backend communicates strictly via Socket.IO events.
 
@@ -89,14 +89,14 @@ Emitted if the `nvidia-smi` binary throws an exception, times out, or becomes un
 }
 ```
 
-## 📋 System Requirements
+## System Requirements
 
 * **OS**: Windows 10/11, Ubuntu 20.04+, or macOS (Mock mode only).
 * **Python**: `v3.8+`
 * **GPU**: Any NVIDIA GPU with Fermi architecture or newer.
 * **Drivers**: Minimum NVIDIA Display Driver version compatible with your OS (WDDM for Windows, proprietary Linux drivers). `nvidia-smi` must be accessible globally in the system `$PATH`.
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 1. **Clone the repository**:
    ```bash
@@ -119,7 +119,7 @@ Emitted if the `nvidia-smi` binary throws an exception, times out, or becomes un
    ```
    *Dependencies include `flask`, `flask-socketio`, and `eventlet` for asynchronous non-blocking I/O.*
 
-## 💻 Running the Server
+## Running the Server
 
 Start the application daemon:
 
@@ -128,7 +128,7 @@ python app.py
 ```
 > The server listens on `0.0.0.0:5000`. Navigate to [http://localhost:5000](http://localhost:5000) to access the dashboard.
 
-### 🧪 Developer Mock Mode
+### Developer Mock Mode
 To work on the frontend UI without querying physical hardware, inject the `GPU_MONITOR_MOCK` environment variable to spawn the stochastic data generation loop.
 
 **Windows (PowerShell):**
@@ -141,7 +141,7 @@ $env:GPU_MONITOR_MOCK="1"; python app.py
 GPU_MONITOR_MOCK=1 python app.py
 ```
 
-## 🗂️ Project Hierarchy
+## Project Hierarchy
 
 ```text
 NVIDIA-GPU-PowerMonitor/
@@ -160,6 +160,6 @@ NVIDIA-GPU-PowerMonitor/
     └── index.html          # HTML5 Dashboard layout and DOM anchors
 ```
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License. Copyright (c) 2026 Aditya Guha. See the [LICENSE](LICENSE) file for full details.
