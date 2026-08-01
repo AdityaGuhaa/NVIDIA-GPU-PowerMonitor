@@ -1,0 +1,149 @@
+<!-- 
+  Copyright (c) 2026 Aditya Guha
+  Licensed under the MIT License. See LICENSE file in the project root for full license information.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Real-time NVIDIA GPU power and VRAM monitoring dashboard">
+    <title>NVIDIA-GPU-PowerMonitor</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- App Stylesheet -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- ===== Title Bar ===== -->
+    <header class="titlebar">
+        <div class="titlebar-left">
+            <img src="/static/img/logo.svg" alt="ADI Logo" class="titlebar-icon" style="width: 28px; height: 28px; border-radius: 4px;">
+            <span class="titlebar-title">NVIDIA GPU PowerMonitor</span>
+        </div>
+        <div class="titlebar-right">
+            <span class="connection-dot" id="connection-dot"></span>
+            <span class="connection-text" id="connection-status">Disconnected</span>
+        </div>
+    </header>
+
+    <!-- ===== GPU Summary Strip ===== -->
+    <div class="summary-strip">
+        <div class="summary-item">
+            <span class="summary-label">GPU</span>
+            <span class="summary-value" id="gpu-name">—</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+            <span class="summary-label">Temperature</span>
+            <span class="summary-value" id="gpu-temp">—</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+            <span class="summary-label">GPU Usage</span>
+            <span class="summary-value" id="gpu-util">—</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+            <span class="summary-label">Power</span>
+            <span class="summary-value"><span id="power-current" class="val-power">—</span><span id="power-limit" class="val-dim"> / —</span></span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+            <span class="summary-label">VRAM</span>
+            <span class="summary-value"><span id="vram-used" class="val-vram">—</span><span id="vram-total" class="val-dim"> / —</span></span>
+        </div>
+    </div>
+
+    <!-- ===== Main Content: Charts ===== -->
+    <main class="main-content">
+        <!-- Power Usage Panel -->
+        <section class="graph-panel">
+            <div class="graph-panel-header">
+                <div class="graph-panel-title">
+                    <span class="graph-dot dot-power"></span>
+                    Power Usage
+                </div>
+                <div class="graph-panel-reading">
+                    <span class="reading-value val-power" id="reading-power">—</span>
+                    <span class="reading-unit">W</span>
+                </div>
+            </div>
+            <div class="graph-area">
+                <canvas id="powerChart"></canvas>
+            </div>
+            <div class="graph-panel-footer">
+                <div class="graph-stat">
+                    <span class="graph-stat-label">Current</span>
+                    <span class="graph-stat-value" id="stat-power">—</span>
+                    <span class="graph-stat-unit">W</span>
+                </div>
+                <div class="graph-stat">
+                    <span class="graph-stat-label">Limit</span>
+                    <span class="graph-stat-value" id="stat-limit">—</span>
+                    <span class="graph-stat-unit">W</span>
+                </div>
+                <div class="graph-stat">
+                    <span class="graph-stat-label">Usage</span>
+                    <span class="graph-stat-value" id="stat-power-pct">—</span>
+                    <span class="graph-stat-unit">%</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- VRAM Usage Panel -->
+        <section class="graph-panel">
+            <div class="graph-panel-header">
+                <div class="graph-panel-title">
+                    <span class="graph-dot dot-vram"></span>
+                    VRAM Usage
+                </div>
+                <div class="graph-panel-reading">
+                    <span class="reading-value val-vram" id="reading-vram">—</span>
+                    <span class="reading-unit">GB</span>
+                </div>
+            </div>
+            <div class="graph-area">
+                <canvas id="vramChart"></canvas>
+            </div>
+            <div class="graph-panel-footer">
+                <div class="graph-stat">
+                    <span class="graph-stat-label">Used</span>
+                    <span class="graph-stat-value" id="stat-vram-used">—</span>
+                    <span class="graph-stat-unit">GB</span>
+                </div>
+                <div class="graph-stat">
+                    <span class="graph-stat-label">Total</span>
+                    <span class="graph-stat-value" id="stat-vram-total">—</span>
+                    <span class="graph-stat-unit">GB</span>
+                </div>
+                <div class="graph-stat">
+                    <span class="graph-stat-label">Usage</span>
+                    <span class="graph-stat-value" id="stat-vram-pct">—</span>
+                    <span class="graph-stat-unit">%</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+        <span>60 second history</span>
+        <span>·</span>
+        <span>0.5s refresh interval</span>
+    </footer>
+
+    <!-- ===== Scripts ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.8.1/dist/socket.io.min.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
